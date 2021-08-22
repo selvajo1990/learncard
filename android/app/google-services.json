@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "931429349168",
+    "project_id": "learncard-25409",
+    "storage_bucket": "learncard-25409.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931429349168:android:77eeaa65b5ad14cf8ebaf5",
+        "android_client_info": {
+          "package_name": "com.example.learncard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931429349168-nsud58jdp47kqd2m668mo58r95pen6ml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm1HkEIjR-wvASff7QUQ8-rtmb8xBfrVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931429349168-nsud58jdp47kqd2m668mo58r95pen6ml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
