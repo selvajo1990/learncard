@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learncard/ui/shared/size_helper.dart';
 import 'package:learncard/ui/widgets/dashboard_card.dart';
 import 'package:learncard/core/services/dashboard_service.dart';
 
@@ -19,19 +20,47 @@ class DashboardView extends StatelessWidget {
               FutureBuilder(
                 future: dashboardService.getEmployee(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.active &&
-                      !snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(displayHeight(context) * 0.01),
+                          height: displayHeight(context) * 0.30,
+                          width: displayWidth(context) * 0.85,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                backgroundColor: Colors.redAccent,
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.deepPurple),
+                                strokeWidth: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
-                  }
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
+                  } else if (snapshot.hasData) {
                     return Row(
                       children: dashboardSummaryList(snapshot),
                     );
+                  } else if (snapshot.hasError) {
+                    final error = snapshot.error;
+                    return Container(
+                      margin: EdgeInsets.all(displayHeight(context) * 0.01),
+                      height: displayHeight(context) * 0.30,
+                      width: displayWidth(context) * 0.85,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(error.toString()),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Text('data');
                   }
-                  return CircularProgressIndicator();
                 },
               ),
             ],

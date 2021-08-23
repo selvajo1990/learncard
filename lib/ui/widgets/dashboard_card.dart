@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learncard/ui/shared/size_helper.dart';
 
 class DashboardDetailCard extends StatelessWidget {
   const DashboardDetailCard({
@@ -15,7 +16,8 @@ class DashboardDetailCard extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xffeeeeee), width: 2.0),
         color: Colors.greenAccent[400],
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        borderRadius:
+            BorderRadius.all(Radius.circular(displayHeight(context) * 0.02)),
         boxShadow: [
           BoxShadow(
             color: Colors.white10,
@@ -26,25 +28,25 @@ class DashboardDetailCard extends StatelessWidget {
         ],
       ),
       margin: EdgeInsets.all(8),
-      height: 180,
-      width: 360,
+      height: displayHeight(context) * 0.30,
+      width: displayWidth(context) * 0.85,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
               child: Icon(
             Icons.icecream,
-            size: 100.0,
+            size: displayHeight(context) * 0.15,
             color: flavorColor,
           )),
           SizedBox(
-            height: 20.0,
+            height: displayHeight(context) * 0.04,
           ),
           Text(
             flavor,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24.0,
+                fontSize: displayHeight(context) * 0.04,
                 color: flavorColor),
           ),
         ],

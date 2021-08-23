@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:learncard/core/models/dashboard_model.dart';
+import 'package:learncard/core/models/failure_model.dart';
 
 class DashboardService {
   final CollectionReference _employee =
@@ -16,14 +18,16 @@ class DashboardService {
       QuerySnapshot querySnapshotEmployee = await _employee.get();
       list.add(DashboardModel.dashboardCardDetails(
           tableName: "Employee Table", totalCount: querySnapshotEmployee.size));
-
       QuerySnapshot querySnapshotEmployer = await _employer.get();
       list.add(DashboardModel.dashboardCardDetails(
           tableName: "Employer Table", totalCount: querySnapshotEmployer.size));
       return list;
+    } on SocketException {
+      throw Failure('You are not connected to internet 😒');
+    } on FirebaseException {
+      throw Failure('Firebase connection faild 🤦‍♂️');
     } catch (e) {
-      print(e.toString());
-      throw e.toString();
+      throw Failure('Unknown Exception');
     }
   }
 
