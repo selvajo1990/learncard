@@ -4,13 +4,17 @@ import 'package:learncard/ui/widgets/dashboard_card.dart';
 import 'package:learncard/core/services/dashboard_service.dart';
 
 class DashboardView extends StatelessWidget {
-  const DashboardView({Key? key}) : super(key: key);
+  final String sampledata;
+  const DashboardView({
+    Key? key,
+    this.sampledata = "",
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final DashboardService dashboardService = DashboardService();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('Dashboard ' + sampledata),
       ),
       body: Container(
         child: SingleChildScrollView(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learncard/ui/views/dashboard_view.dart';
+import 'core/shared/route_generator.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: DashboardView(),
-      // home: FutureExample(title: 'Card Tutorial'),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.routeGenerator,
     );
   }
 }
