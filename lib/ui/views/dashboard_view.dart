@@ -14,7 +14,7 @@ class DashboardView extends StatelessWidget {
     final DashboardService dashboardService = DashboardService();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard ' + sampledata),
+        title: Text('Dashboard - ' + sampledata),
       ),
       body: Container(
         child: SingleChildScrollView(
