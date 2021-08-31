@@ -8,7 +8,6 @@ class ItemFetcher {
   DocumentSnapshot? lastDocument;
   final CollectionReference _employee =
       FirebaseFirestore.instance.collection('employee');
-  List<EmployeeDetails> emptyEmployeeList = [];
 
   Future<List<WordPair>> fetch() async {
     final list = <WordPair>[];
@@ -20,25 +19,33 @@ class ItemFetcher {
     return list;
   }
 
-  Future<List<EmployeeDetails>> getEmployeeDetail() async {
+  Future<List<EmployeeDetails>> getEmployeeDetail(
+      {String searchText = ""}) async {
     try {
-      print('getEmployeeDetail');
       QuerySnapshot querySnapshot;
-      if (_isFirst) {
-        querySnapshot = await _employee.orderBy("id").limit(rowCount).get();
-        lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
-        _isFirst = false;
-      } else {
-        Map mapData = lastDocument?.data() as Map;
-        if (mapData.isEmpty) {
-          return emptyEmployeeList;
-        }
+      if (searchText.isNotEmpty) {
+        _isFirst = true;
         querySnapshot = await _employee
-            .orderBy("id")
-            .startAfter([mapData['id']])
-            .limit(10)
+            .limit(rowCount)
+            .where("firstName", isGreaterThanOrEqualTo: searchText)
             .get();
-        lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
+      } else {
+        if (_isFirst) {
+          querySnapshot = await _employee.orderBy("id").limit(rowCount).get();
+          lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
+          _isFirst = false;
+        } else {
+          Map mapData = lastDocument?.data() as Map;
+          if (mapData.isEmpty) {
+            return <EmployeeDetails>[];
+          }
+          querySnapshot = await _employee
+              .orderBy("id")
+              .startAfter([mapData['id']])
+              .limit(10)
+              .get();
+          lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
+        }
       }
 
       return querySnapshot.docs

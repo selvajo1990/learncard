@@ -28,8 +28,10 @@ class _LazyLoadingViewState extends State<LazyLoadingView> {
     });
   }
 
-  void _loadMore() {
-    _itemFetcher.getEmployeeDetail().then((List<EmployeeDetails> fetchedList) {
+  void _loadMore({String searchText = ""}) {
+    _itemFetcher
+        .getEmployeeDetail(searchText: searchText)
+        .then((List<EmployeeDetails> fetchedList) {
       employeeList.addAll(fetchedList);
       setState(() {});
     });
@@ -40,20 +42,43 @@ class _LazyLoadingViewState extends State<LazyLoadingView> {
       appBar: AppBar(
         title: Text('Lazy Loading'),
       ),
-      body: Container(
-        child: ListView.builder(
-          controller: _scrollController,
-          itemExtent: 80,
-          itemCount: employeeList.length + 1,
-          itemBuilder: (context, index) {
-            if (index == employeeList.length) {
-              return CupertinoActivityIndicator();
-            }
-            return ListTile(
-              leading: Text(employeeList[index].id.toString()),
-              title: Text(employeeList[index].firstName),
-            );
-          },
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            TextField(
+              onChanged: (value) {
+                employeeList.clear();
+                _loadMore(searchText: value.trim());
+              },
+              decoration: InputDecoration(
+                  labelText: 'Search', suffixIcon: Icon(Icons.search)),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: ListView.builder(
+                controller: _scrollController,
+                itemExtent: 80,
+                itemCount: employeeList.length + 1,
+                itemBuilder: (context, index) {
+                  if (employeeList.length == 0) {
+                    return Center(
+                      child: Text('No Record Found'),
+                    );
+                  }
+                  if (index == employeeList.length) {
+                    return CupertinoActivityIndicator();
+                  }
+                  return ListTile(
+                    leading: Text(employeeList[index].id.toString()),
+                    title: Text(employeeList[index].firstName),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
