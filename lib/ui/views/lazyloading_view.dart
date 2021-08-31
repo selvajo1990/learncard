@@ -1,6 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learncard/core/models/importdata_model.dart';
 import 'package:learncard/core/services/lazyloading_service.dart';
 
 class LazyLoadingView extends StatefulWidget {
@@ -11,7 +12,7 @@ class LazyLoadingView extends StatefulWidget {
 }
 
 class _LazyLoadingViewState extends State<LazyLoadingView> {
-  List _pairList = <WordPair>[];
+  List<EmployeeDetails> employeeList = [];
   ItemFetcher _itemFetcher = ItemFetcher();
   ScrollController _scrollController = ScrollController();
 
@@ -28,8 +29,8 @@ class _LazyLoadingViewState extends State<LazyLoadingView> {
   }
 
   void _loadMore() {
-    _itemFetcher.fetch().then((List<WordPair> fetchedList) {
-      _pairList.addAll(fetchedList);
+    _itemFetcher.getEmployeeDetail().then((List<EmployeeDetails> fetchedList) {
+      employeeList.addAll(fetchedList);
       setState(() {});
     });
   }
@@ -43,14 +44,14 @@ class _LazyLoadingViewState extends State<LazyLoadingView> {
         child: ListView.builder(
           controller: _scrollController,
           itemExtent: 80,
-          itemCount: _pairList.length + 1,
+          itemCount: employeeList.length + 1,
           itemBuilder: (context, index) {
-            if (index == _pairList.length) {
+            if (index == employeeList.length) {
               return CupertinoActivityIndicator();
             }
             return ListTile(
-              leading: Text(index.toString()),
-              title: Text(_pairList[index].asPascalCase),
+              leading: Text(employeeList[index].id.toString()),
+              title: Text(employeeList[index].firstName),
             );
           },
         ),
