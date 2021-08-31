@@ -3,7 +3,7 @@ import 'package:english_words/english_words.dart';
 import 'package:learncard/core/models/importdata_model.dart';
 
 class ItemFetcher {
-  final rowCount = 10;
+  final rowCount = 14;
   bool _isFirst = true;
   DocumentSnapshot? lastDocument;
   final CollectionReference _employee =
@@ -22,9 +22,10 @@ class ItemFetcher {
 
   Future<List<EmployeeDetails>> getEmployeeDetail() async {
     try {
+      print('getEmployeeDetail');
       QuerySnapshot querySnapshot;
       if (_isFirst) {
-        querySnapshot = await _employee.orderBy("id").limit(10).get();
+        querySnapshot = await _employee.orderBy("id").limit(rowCount).get();
         lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
         _isFirst = false;
       } else {
