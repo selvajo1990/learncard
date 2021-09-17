@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learncard/ui/views/dashboard_view.dart';
+import 'package:learncard/ui/views/horizontal.dart';
 import 'package:learncard/ui/views/lazyloading_view.dart';
 import 'package:learncard/ui/views/welcome_view.dart';
 
@@ -8,7 +9,7 @@ class RouteGenerator {
     final arguments = routeSettings.arguments;
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => LazyLoadingView());
+        return MaterialPageRoute(builder: (_) => HorizontalScroll());
       case '/DashboardView':
         if (arguments is String) {
           return MaterialPageRoute(
